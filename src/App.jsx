@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Routes, Route } from "react-router";
 
 import NavBar from "./components/NavBar/NavBar";
@@ -7,11 +7,21 @@ import SignInForm from "./components/SignInForm/SignInForm";
 import Landing from "./components/Landing/Landing";
 import Dashboard from "./components/Dashboard/Dashboard";
 import DiaryList from "./components/DiaryList/DiaryList";
+import * as diaryService from "./services/diaryService";
 
 import { UserContext } from "./contexts/UserContext";
 
 const App = () => {
   const { user } = useContext(UserContext);
+  const [diary, setDiary] = useState([]);
+
+  useEffect(() => {
+    const fetchAllDiary = async () => {
+      const diaryData = await diaryService.index();
+      setDiary(diaryData);
+    };
+    if (user) fetchAllDiary();
+  }, [user]);
 
   return (
     <>
@@ -20,12 +30,10 @@ const App = () => {
         <Route path="/" element={user ? <Dashboard /> : <Landing />} />
         {user ? (
           <>
-            {/* Protected routes (available only to signed-in users) */}
-            <Route path="/diary" element={<DiaryList />} />
+            <Route path="/diary" element={<DiaryList diary={diary} />} />
           </>
         ) : (
           <>
-            {/* Non-user routes (available only to guests) */}
             <Route path="/sign-up" element={<SignUpForm />} />
             <Route path="/sign-in" element={<SignInForm />} />
           </>
