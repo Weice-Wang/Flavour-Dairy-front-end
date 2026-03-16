@@ -8,7 +8,7 @@ const DiaryForm = (props) => {
   const [formData, setFormData] = useState({
     name: "",
     location: "",
-    cuisine: "",
+    cuisine: "Bakery",
     rating: "",
   });
 
@@ -37,7 +37,7 @@ const DiaryForm = (props) => {
     };
     if (diaryId) fetchDiary();
     return () =>
-      setFormData({ name: "", location: "", cuisine: "", rating: "" });
+      setFormData({ name: "", location: "", cuisine: "Bakery", rating: "" });
   }, [diaryId]);
 
   return (
@@ -73,7 +73,7 @@ const DiaryForm = (props) => {
           value={formData.cuisine}
           onChange={handleChange}
         >
-          <option value="Bakery">Bakery</option>
+          <option default value="Bakery">Bakery</option>
           <option value="Bar">Bar</option>
           <option value="Brunch">Brunch</option>
           <option value="Cafe">Cafe</option>
