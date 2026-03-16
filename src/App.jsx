@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router";
+import { UserContext } from "./contexts/UserContext";
 
 import NavBar from "./components/NavBar/NavBar";
 import SignUpForm from "./components/SignUpForm/SignUpForm";
@@ -10,8 +11,7 @@ import DiaryList from "./components/DiaryList/DiaryList";
 import * as diaryService from "./services/diaryService";
 import DiaryDetails from "./components/DiaryDetails/DiaryDetails";
 import DiaryForm from "./components/DiaryForm/DiaryForm";
-
-import { UserContext } from "./contexts/UserContext";
+import CommentForm from "./components/CommentForm/CommentForm";
 
 const App = () => {
   const { user } = useContext(UserContext);
@@ -39,7 +39,7 @@ const App = () => {
   };
 
   const handleUpdateDiary = async (diaryId, diaryFormData) => {
-    const updatedDiary = await diaryService.update(diaryId, diaryFormData);
+    const updatedDiary = await diaryService.updateDiary(diaryId, diaryFormData);
     setDiary(
       diary.map((diary) => (diaryId === diary._id ? updatedDiary : diary)),
     );
@@ -65,6 +65,10 @@ const App = () => {
             <Route
               path="/diary/:diaryId/edit"
               element={<DiaryForm handleUpdateDiary={handleUpdateDiary} />}
+            />
+            <Route
+              path="/diary/:diaryId/comments/:commentId/edit"
+              element={<CommentForm />}
             />
           </>
         ) : (

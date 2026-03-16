@@ -28,6 +28,14 @@ const DiaryDetails = (props) => {
     setDiary({ ...diary, comments: [...diary.comments, newComment] });
   };
 
+  const handleDeleteComment = async (commentId) => {
+    await diaryService.deleteComment(diaryId, commentId);
+    setDiary({
+      ...diary,
+      comments: diary.comments.filter((comment) => comment._id !== commentId),
+    });
+  };
+
   return (
     <main>
       <section>
@@ -60,6 +68,16 @@ const DiaryDetails = (props) => {
                 {`${comment.author.username} posted on
                 ${new Date(comment.createdAt).toLocaleDateString()}`}
               </p>
+              {diary.author._id === user._id && (
+                <>
+                  <Link to={`/diary/${diaryId}/comments/${comment._id}/edit`}>
+                    Edit
+                  </Link>
+                  <button onClick={() => handleDeleteComment(comment._id)}>
+                    Delete
+                  </button>
+                </>
+              )}
             </header>
             <p>{comment.text}</p>
           </article>
