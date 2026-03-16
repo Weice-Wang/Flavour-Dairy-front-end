@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 const DiaryList = (props) => {
   return (
     <main>
+      <Link to="/diary/new">New Diary</Link>
       {props.diary.map((diary) => (
         <Link key={diary._id} to={`/diary/${diary._id}`}>
           <article>

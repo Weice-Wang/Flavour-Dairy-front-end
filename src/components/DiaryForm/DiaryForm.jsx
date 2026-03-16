@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import * as diaryService from "../../services/diaryService";
+import { useNavigate } from "react-router";
+import * as diaryService from "../../services/diaryService.js"
 
 const DiaryForm = () => {
 

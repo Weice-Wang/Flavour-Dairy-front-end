@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import * as diaryService from "../../services/diaryService";
 
