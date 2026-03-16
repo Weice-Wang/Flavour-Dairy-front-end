@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import * as diaryService from "../../services/diaryService";
+import CommentForm from "../CommentForm/CommentForm";
 
 const DiaryDetails = () => {
   const { diaryId } = useParams();
@@ -17,6 +18,14 @@ const DiaryDetails = () => {
   }, [diaryId]);
 
   if (!diary) return <main>Loading...</main>;
+
+  const handleAddComment = async (commentFormData) => {
+    const newComment = await diaryService.createComment(
+      diaryId,
+      commentFormData,
+    );
+    setDiary({ ...diary, comments: [...diary.comments, newComment] });
+  };
 
   const handleDelete = async () => {
     await diaryService.deleteDiary(diaryId);
@@ -38,6 +47,7 @@ const DiaryDetails = () => {
       <section>
         <h2>Comments</h2>
         {!diary.comments.length && <p>There are no comments.</p>}
+        <CommentForm handleAddComment={handleAddComment} />
 
         {diary.comments.map((comment) => (
           <article key={comment._id}>
