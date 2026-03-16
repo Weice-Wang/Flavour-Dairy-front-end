@@ -1,12 +1,15 @@
-import { useParams, Link, useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router";
+import { useEffect, useState, useContext } from "react";
 import * as diaryService from "../../services/diaryService";
 import CommentForm from "../CommentForm/CommentForm";
+import { UserContext } from "../../contexts/UserContext";
 
-const DiaryDetails = () => {
+const DiaryDetails = (props) => {
   const { diaryId } = useParams();
-  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
   const [diary, setDiary] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDiary = async () => {
@@ -27,11 +30,6 @@ const DiaryDetails = () => {
     setDiary({ ...diary, comments: [...diary.comments, newComment] });
   };
 
-  const handleDelete = async () => {
-    await diaryService.deleteDiary(diaryId);
-    navigate("/diary");
-  };
-
   return (
     <main>
       <section>
@@ -43,6 +41,13 @@ const DiaryDetails = () => {
         <p>Location: {diary.location}</p>
         <p>Cuisine Type: {diary.cuisine}</p>
         <p>Rating: {diary.rating}</p>
+        {diary.author._id === user._id && (
+          <>
+            <button onClick={() => props.handleDeleteDiary(diaryId)}>
+              Delete
+            </button>
+          </>
+        )}
       </section>
       <section>
         <h2>Comments</h2>

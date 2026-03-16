@@ -32,6 +32,12 @@ const App = () => {
     navigate("/diary");
   };
 
+  const handleDeleteDiary = async (diaryId) => {
+    const deletedDiary = await diaryService.deleteDiary(diaryId);
+    setDiary(diary.filter((diary) => diary._id !== deletedDiary._id));
+    navigate("/diary");
+  };
+
   return (
     <>
       <NavBar />
@@ -40,7 +46,10 @@ const App = () => {
         {user ? (
           <>
             <Route path="/diary" element={<DiaryList diary={diary} />} />
-            <Route path="/diary/:diaryId" element={<DiaryDetails />} />
+            <Route
+              path="/diary/:diaryId"
+              element={<DiaryDetails handleDeleteDiary={handleDeleteDiary} />}
+            />
             <Route
               path="/diary/new"
               element={<DiaryForm handleAddDiary={handleAddDiary} />}

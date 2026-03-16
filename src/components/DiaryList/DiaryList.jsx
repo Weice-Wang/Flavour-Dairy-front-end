@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-
 const DiaryList = (props) => {
   return (
     <main>
@@ -13,7 +12,9 @@ const DiaryList = (props) => {
                 ${new Date(diary.createdAt).toLocaleDateString()}`}
               </p>
             </header>
-            <p>{diary.comments}</p>
+            {diary.comments.map((comment) => (
+              <p key={comment._id}>{comment.text}</p>
+            ))}
           </article>
         </Link>
       ))}

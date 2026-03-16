@@ -40,9 +40,9 @@ const create = async (diaryFormData) => {
   }
 };
 
-const createComment = async (hootId, commentFormData) => {
+const createComment = async (diaryId, commentFormData) => {
   try {
-    const res = await fetch(`${BASE_URL}/${hootId}/comments`, {
+    const res = await fetch(`${BASE_URL}/${diaryId}/comments`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -56,4 +56,18 @@ const createComment = async (hootId, commentFormData) => {
   }
 };
 
-export { index, show, create, createComment };
+const deleteDiary = async (diaryId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${diaryId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { index, show, create, createComment, deleteDiary };
